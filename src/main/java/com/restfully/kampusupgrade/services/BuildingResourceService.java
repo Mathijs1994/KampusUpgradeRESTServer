@@ -28,7 +28,7 @@ import org.w3c.dom.NodeList;
  *
  * @author Mahijs
  */
-public class ResourceService implements RestResources {
+public class BuildingResourceService implements BuildingResources {
 
     @Context
     private UriInfo context;
@@ -38,15 +38,15 @@ public class ResourceService implements RestResources {
     private AtomicInteger idCounter = new AtomicInteger();
 
     /**
-     * Creates a new instance of RestResources
+     * Creates a new instance of BuildingResources
      */
-    public ResourceService() {
+    public BuildingResourceService() {
 
     }
 
     /**
      * Retrieves representation of an instance of
-     * com.mycompany.mavenproject_fbo.ResourceService
+ com.mycompany.mavenproject_fbo.BuildingResourceService
      *
      * @return an instance of com.mycompany.mavenproject_fbo.Customer
      */
@@ -147,7 +147,7 @@ public class ResourceService implements RestResources {
             }
         };
     }
-
+    /*
     public StreamingOutput getCustomer(int id) {
         final Customer customer = customerDB.get(id);
         if (customer == null) {
@@ -171,10 +171,10 @@ public class ResourceService implements RestResources {
     }
 
     /**
-     * PUT method for updating or creating an instance of ResourceService
+     * PUT method for updating or creating an instance of BuildingResourceService
      *
      * @param content representation for the resource
-     */
+     
     public void updateCustomer(int id, InputStream is) {
         Customer update = readCustomer(is);
         Customer current = customerDB.get(id);
@@ -189,6 +189,7 @@ public class ResourceService implements RestResources {
         current.setCountry(update.getCountry());
     }
 
+    */
     protected void outputBuilding(OutputStream os, ArrayList<Building> b)
             throws IOException {
 
@@ -207,7 +208,7 @@ public class ResourceService implements RestResources {
         writer.println("    </list>");
         writer.println("</buildings>");
     }
-
+/*
     protected Customer readCustomer(InputStream is) {
         try {
             DocumentBuilder builder
@@ -243,5 +244,5 @@ public class ResourceService implements RestResources {
         } catch (Exception ex) {
             throw new WebApplicationException(ex, Response.Status.BAD_REQUEST);
         }
-    }
+    }*/
 }

@@ -15,7 +15,9 @@ public class ApplicationConfig extends Application {
     private Set<Class<?>> resources = new java.util.HashSet<>();
 
     public ApplicationConfig() {
-        singletons.add(new ResourceService());
+        singletons.add(new BuildingResourceService());
+        singletons.add(new RoomResourceService());
+        
     }
     
     @Override

@@ -17,7 +17,7 @@ import javax.ws.rs.core.StreamingOutput;
  * @author boofk
  */
 @Path("/building")
-public interface RestResources {
+public interface BuildingResources {
     
     @GET
     @Produces(MediaType.APPLICATION_XML)
@@ -45,7 +45,7 @@ public interface RestResources {
     
     
     
-    @POST
+  /*  @POST
     @Consumes(MediaType.APPLICATION_XML)
     public Response createCustomer(InputStream is);
     
@@ -54,7 +54,5 @@ public interface RestResources {
     @Consumes(MediaType.APPLICATION_XML)
     public void updateCustomer(@PathParam("id") int id, InputStream is);
     
-    
-
-    
+    */
 }
