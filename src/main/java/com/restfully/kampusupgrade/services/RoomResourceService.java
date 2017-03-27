@@ -71,9 +71,9 @@ public class RoomResourceService implements RoomResources{
             writer.println("                <y>" + r.get(i).getxCoordinate() + "</y>");
             writer.println("            </coordinates>");
             writer.println("            <building id=\"" + r.get(i).getBuildingID() + "\">");
-            writer.println("                <buildingname>" + r.get(i).getBuildingname() + "</buildingname>");
+            writer.println("                <name>" + r.get(i).getBuildingname() + "</name>");
             writer.println("                <street>" + r.get(i).getBuildingstreet() + "</street>");
-            writer.println("                <buildingnumber>" + r.get(i).getBuildingNo()+ "</buildingnumber>");
+            writer.println("                <number>" + r.get(i).getBuildingNo()+ "</number>");
             writer.println("                <postal_code>" + r.get(i).getBuildingPostal_code()+ "</postal_code>");
             writer.println("                <city>" + r.get(i).getBuildingCity()+ "</city>");
             writer.println("            </building>");
