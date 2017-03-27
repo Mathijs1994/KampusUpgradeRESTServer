@@ -46,13 +46,12 @@ public class ResourceService implements RestResources {
 
     /**
      * Retrieves representation of an instance of
- com.mycompany.mavenproject_fbo.ResourceService
+     * com.mycompany.mavenproject_fbo.ResourceService
      *
      * @return an instance of com.mycompany.mavenproject_fbo.Customer
      */
     public StreamingOutput getBuilding() {
 
-        
         Connector conn = new Connector();
         final ArrayList<Building> list = conn.getAllBuildings();
 
@@ -61,10 +60,76 @@ public class ResourceService implements RestResources {
         }
         return new StreamingOutput() {
             public void write(OutputStream outputStream)
-                    throws IOException, WebApplicationException {                                                 
-                    outputBuilding(outputStream, list);
-                }
-         
+                    throws IOException, WebApplicationException {
+                outputBuilding(outputStream, list);
+            }
+
+        };
+    }
+
+    public StreamingOutput getBuilding(String city) {
+        Connector conn = new Connector();
+        final ArrayList<Building> list = conn.getBuildingsByCity(city);
+
+        if (list == null) {
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
+        }
+        return new StreamingOutput() {
+            public void write(OutputStream outputStream)
+                    throws IOException, WebApplicationException {
+                outputBuilding(outputStream, list);
+            }
+
+        };
+
+    }
+
+    public StreamingOutput getBuilding(int id) {
+        Connector conn = new Connector();
+        final ArrayList<Building> list = conn.getBuilding(id);
+
+        if (list == null) {
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
+        }
+        return new StreamingOutput() {
+            public void write(OutputStream outputStream)
+                    throws IOException, WebApplicationException {
+                outputBuilding(outputStream, list);
+            }
+
+        };
+
+    }
+
+    public StreamingOutput getBuildingByStreet(String street) {
+        Connector conn = new Connector();
+        final ArrayList<Building> list = conn.getBuildingsByStreet(street);
+
+        if (list == null) {
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
+        }
+        return new StreamingOutput() {
+            public void write(OutputStream outputStream)
+                    throws IOException, WebApplicationException {
+                outputBuilding(outputStream, list);
+            }
+
+        };
+
+    }
+
+    public StreamingOutput getBuildingByName(String name) {
+        Connector conn = new Connector();
+        final ArrayList<Building> list = conn.getBuildingsByName(name);
+
+        if (list == null) {
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
+        }
+        return new StreamingOutput() {
+            public void write(OutputStream outputStream)
+                    throws IOException, WebApplicationException {
+                outputBuilding(outputStream, list);
+            }
 
         };
     }
@@ -77,7 +142,7 @@ public class ResourceService implements RestResources {
         return new StreamingOutput() {
             public void write(OutputStream outputStream)
                     throws IOException, WebApplicationException {
-                outputCustomer(outputStream, customer);
+              //  outputCustomer(outputStream, customer);
 
             }
         };
@@ -91,7 +156,7 @@ public class ResourceService implements RestResources {
         return new StreamingOutput() {
             public void write(OutputStream outputStream)
                     throws IOException, WebApplicationException {
-                outputCustomer(outputStream, customer);
+              //  outputCustomer(outputStream, customer);
 
             }
         };
@@ -106,8 +171,7 @@ public class ResourceService implements RestResources {
     }
 
     /**
-     * PUT method for updating or creating an instance of
- ResourceService
+     * PUT method for updating or creating an instance of ResourceService
      *
      * @param content representation for the resource
      */
@@ -127,34 +191,21 @@ public class ResourceService implements RestResources {
 
     protected void outputBuilding(OutputStream os, ArrayList<Building> b)
             throws IOException {
-        
+
         PrintStream writer = new PrintStream(os);
         writer.println("<buildings>");
         writer.println("    <list>");
         for (int i = 0; b.size() > i; i++) {
-        writer.println("        <building id=\"" + b.get(i).getId() + "\">");
-        writer.println("            <name>" + b.get(i).getName() + "</name>");
-        writer.println("            <street>" + b.get(i).getStreet() + "</street>");
-        writer.println("            <number>" + b.get(i).getNumber() + "</number>");
-        writer.println("            <postal_code>" + b.get(i).getPostalCode() + "</postal_code>");
-        writer.println("            <city>" + b.get(i).getCity() + "</city>");
-        writer.println("        </building>");
+            writer.println("        <building id=\"" + b.get(i).getId() + "\">");
+            writer.println("            <name>" + b.get(i).getName() + "</name>");
+            writer.println("            <street>" + b.get(i).getStreet() + "</street>");
+            writer.println("            <number>" + b.get(i).getNumber() + "</number>");
+            writer.println("            <postal_code>" + b.get(i).getPostalCode() + "</postal_code>");
+            writer.println("            <city>" + b.get(i).getCity() + "</city>");
+            writer.println("        </building>");
         }
         writer.println("    </list>");
         writer.println("</buildings>");
-    }
-
-    protected void outputCustomer(OutputStream os, Customer c)
-            throws IOException {
-        PrintStream writer = new PrintStream(os);
-        writer.println("<customer id=\"" + c.getId() + "\">");
-        writer.println("   <first-name>" + c.getFirstName() + "</first-name>");
-        writer.println("   <last-name>" + c.getLastName() + "</last-name>");
-        writer.println("   <street>" + c.getStreet() + "</street>");
-        writer.println("   <state>" + c.getState() + "</state>");
-        writer.println("   <zip>" + c.getZip() + "</zip>");
-        writer.println("   <country>" + c.getCountry() + "</country>");
-        writer.println("</customer>");
     }
 
     protected Customer readCustomer(InputStream is) {
