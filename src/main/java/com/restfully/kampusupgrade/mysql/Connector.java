@@ -6,6 +6,7 @@ package com.restfully.kampusupgrade.mysql;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import com.restfully.kampusupgrade.domain.Building;
 import com.restfully.kampusupgrade.domain.Room;
+import com.restfully.kampusupgrade.domain.Screen;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -60,6 +61,7 @@ public class Connector {
                 list.add(building);
 
             }
+            rs.close();
 
         } catch (SQLException ex) {
             Logger.getLogger(Connector.class.getName()).log(Level.SEVERE, null, ex);
@@ -93,7 +95,7 @@ public class Connector {
                 list.add(building);
 
             }
-
+            rs.close();
         } catch (SQLException ex) {
             Logger.getLogger(Connector.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -126,7 +128,7 @@ public class Connector {
                 list.add(building);
 
             }
-
+            rs.close();
         } catch (SQLException ex) {
             Logger.getLogger(Connector.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -159,7 +161,7 @@ public class Connector {
                 list.add(building);
 
             }
-
+            rs.close();
         } catch (SQLException ex) {
             Logger.getLogger(Connector.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -192,7 +194,7 @@ public class Connector {
                 list.add(building);
 
             }
-
+            rs.close();
         } catch (SQLException ex) {
             Logger.getLogger(Connector.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -240,7 +242,7 @@ public class Connector {
                 list.add(room);
 
             }
-
+            rs.close();
         } catch (SQLException ex) {
             Logger.getLogger(Connector.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -248,14 +250,14 @@ public class Connector {
         return list;
 
     }
-    
+
     public ArrayList<Room> getRoomsByID(int id) {
 
         ArrayList<Room> list = new ArrayList<Room>();
         try {
             Connection conn = dataSource.getConnection();
             Statement stmt = conn.createStatement();
-            String query ="select room.ID, room.No, room.Name, floor.No as floorNo, wing.Name as wingname, coordinates.X_coordinate, coordinates.Y_coordinate,\n"
+            String query = "select room.ID, room.No, room.Name, floor.No as floorNo, wing.Name as wingname, coordinates.X_coordinate, coordinates.Y_coordinate,\n"
                     + "building.ID as buildingID, building.Name as buildingname, city.name as cityname, street.Name as streetname, street.Postal_Code, street.No  as buildingNo from room\n"
                     + "inner join floor\n"
                     + "on room.ID_FLOOR = floor.ID\n"
@@ -291,7 +293,7 @@ public class Connector {
                 list.add(room);
 
             }
-
+            rs.close();
         } catch (SQLException ex) {
             Logger.getLogger(Connector.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -299,7 +301,8 @@ public class Connector {
         return list;
 
     }
-      public ArrayList<Room> getRoomsByNo(int no) {
+
+    public ArrayList<Room> getRoomsByNo(int no) {
 
         ArrayList<Room> list = new ArrayList<Room>();
         try {
@@ -337,7 +340,7 @@ public class Connector {
                 room.setBuildingPostal_code(rs.getString("Postal_Code"));
                 room.setBuildingNo(rs.getString("buildingNo"));
                 list.add(room);
-
+                rs.close();
             }
 
         } catch (SQLException ex) {
@@ -347,7 +350,8 @@ public class Connector {
         return list;
 
     }
-        public ArrayList<Room> getRoomsByBuilding(int id) {
+
+    public ArrayList<Room> getRoomsByBuilding(int id) {
 
         ArrayList<Room> list = new ArrayList<Room>();
         try {
@@ -387,7 +391,7 @@ public class Connector {
                 list.add(room);
 
             }
-
+            rs.close();
         } catch (SQLException ex) {
             Logger.getLogger(Connector.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -395,9 +399,220 @@ public class Connector {
         return list;
 
     }
-    
-    
+
+    public ArrayList<Screen> getAllScreens() {
+
+        ArrayList<Screen> list = new ArrayList<Screen>();
+        try {
+            Connection conn = dataSource.getConnection();
+            Statement stmt = conn.createStatement();
+            String query = "select screen.ID,screen.Bluetooth_Mac,screen.Rotation_angle, coordinates.X_coordinate, coordinates.Y_coordinate,\n"
+                    + "building.ID as buildingID, building.Name as buildingname, city.name as cityname, street.Name as streetname, street.Postal_Code, street.No  as buildingNo from screen\n"
+                    + "\n"
+                    + "inner join coordinates\n"
+                    + "on screen.ID_COORDINATES = coordinates.ID\n"
+                    + "inner join building\n"
+                    + "on screen.ID_BUILDING = building.ID\n"
+                    + "inner join city\n"
+                    + "on building.ID_CITY = city.ID\n"
+                    + "inner join street\n"
+                    + "on building.ID_STREET = street.ID;";
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+
+                Screen screen = new Screen();
+
+                screen.setId(rs.getInt("ID"));
+                screen.setMac(rs.getString("Bluetooth_Mac"));
+                screen.setScreenRotation(rs.getInt("Rotation_angle"));
+                screen.setX(rs.getInt("X_coordinate"));
+                screen.setY(rs.getInt("Y_coordinate"));
+                screen.setBuildingID(rs.getInt("buildingID"));
+                screen.setBuildingname(rs.getString("buildingname"));
+                screen.setCity(rs.getString("cityname"));
+                screen.setBuildingstreet(rs.getString("streetname"));
+                screen.setPostal_code(rs.getString("Postal_Code"));
+                screen.setBuildingNo(rs.getInt("buildingNo"));
+
+                query = "select screen.ID,screen.Bluetooth_Mac,screen.Rotation_angle, coordinates.X_coordinate, coordinates.Y_coordinate, neighbouring_screens.Distance,neighbouring_screens.ID_SCREEN_2\n"
+                        + "from screen\n"
+                        + "inner join neighbouring_screens\n"
+                        + "on screen.ID = neighbouring_screens.ID_SCREEN_1\n"
+                        + "inner join coordinates\n"
+                        + "on neighbouring_screens.ID_SCREEN_2 = coordinates.ID\n"
+                        + "where screen.ID=" + screen.getId() + ";";
+                Statement nStmt = conn.createStatement(); 
+                ResultSet neighboorRs = nStmt.executeQuery(query);
+                ArrayList<Screen> neighbourList = new ArrayList();
+                while (neighboorRs.next()) {    
+                    Screen neighbourScreen = new Screen();
+                    neighbourScreen.setId(neighboorRs.getInt("ID_SCREEN_2"));
+                    neighbourScreen.setMac(neighboorRs.getString("Bluetooth_Mac"));
+                    neighbourScreen.setScreenRotation(neighboorRs.getInt("Rotation_angle"));
+                    neighbourScreen.setX(neighboorRs.getInt("X_coordinate"));
+                    neighbourScreen.setY(neighboorRs.getInt("Y_coordinate"));
+                    neighbourScreen.setDistance(neighboorRs.getInt("Distance"));
+                    neighbourList.add(neighbourScreen);
+                   
+                    
+
+                    
+                }
+                screen.setNeighbourList(neighbourList);
+                neighboorRs.close();
+
+                list.add(screen);
+
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Connector.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return list;
+
+    }
+
+    public ArrayList<Screen> getScreensByID(int id) {
+
+        ArrayList<Screen> list = new ArrayList<Screen>();
+        try {
+            Connection conn = dataSource.getConnection();
+            Statement stmt = conn.createStatement();
+            String query = "select screen.ID,screen.Bluetooth_Mac,screen.Rotation_angle, coordinates.X_coordinate, coordinates.Y_coordinate,\n"
+                    + "building.ID as buildingID, building.Name as buildingname, city.name as cityname, street.Name as streetname, street.Postal_Code, street.No  as buildingNo from screen\n"
+                    + "\n"
+                    + "inner join coordinates\n"
+                    + "on screen.ID_COORDINATES = coordinates.ID\n"
+                    + "inner join building\n"
+                    + "on screen.ID_BUILDING = building.ID\n"
+                    + "inner join city\n"
+                    + "on building.ID_CITY = city.ID\n"
+                    + "inner join street\n"
+                    + "on building.ID_STREET = street.ID\n"
+                    + "where screen.ID = " + id + ";";
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+
+                Screen screen = new Screen();
+
+                screen.setId(rs.getInt("ID"));
+                screen.setMac(rs.getString("Bluetooth_Mac"));
+                screen.setScreenRotation(rs.getInt("Rotation_angle"));
+                screen.setX(rs.getInt("X_coordinate"));
+                screen.setY(rs.getInt("Y_coordinate"));
+                screen.setBuildingID(rs.getInt("buildingID"));
+                screen.setBuildingname(rs.getString("buildingname"));
+                screen.setCity(rs.getString("cityname"));
+                screen.setBuildingstreet(rs.getString("streetname"));
+                screen.setPostal_code(rs.getString("Postal_Code"));
+                screen.setBuildingNo(rs.getInt("buildingNo"));
+
+                query = "select screen.ID,screen.Bluetooth_Mac,screen.Rotation_angle, coordinates.X_coordinate, coordinates.Y_coordinate, neighbouring_screens.Distance,neighbouring_screens.ID_SCREEN_2\n"
+                        + "from screen\n"
+                        + "inner join neighbouring_screens\n"
+                        + "on screen.ID = neighbouring_screens.ID_SCREEN_1\n"
+                        + "inner join coordinates\n"
+                        + "on neighbouring_screens.ID_SCREEN_2 = coordinates.ID\n"
+                        + "where screen.ID=" + screen.getId() + ";\n";
+                Statement nStmt = conn.createStatement(); 
+                ResultSet neighboorRs = nStmt.executeQuery(query);
+                 ArrayList<Screen> neighbourList = new ArrayList();
+                while (neighboorRs.next()) {
+                   
+                    Screen neighbourScreen = new Screen();
+                    neighbourScreen.setId(neighboorRs.getInt("ID"));
+                    neighbourScreen.setMac(neighboorRs.getString("Bluetooth_Mac"));
+                    neighbourScreen.setScreenRotation(neighboorRs.getInt("Rotation_angle"));
+                    neighbourScreen.setX(neighboorRs.getInt("X_coordinate"));
+                    neighbourScreen.setY(neighboorRs.getInt("Y_coordinate"));
+                    neighbourScreen.setDistance(neighboorRs.getInt("Distance"));
+                    neighbourList.add(neighbourScreen);
+
+                   
+                }
+                 screen.setNeighbourList(neighbourList);
+                list.add(screen);
+                neighboorRs.close();
+
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Connector.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return list;
+
+    }
+
+    public ArrayList<Screen> getScreensByBuilding(int id) {
+
+        ArrayList<Screen> list = new ArrayList<Screen>();
+        try {
+            Connection conn = dataSource.getConnection();
+            Statement stmt = conn.createStatement();
+            String query = "select screen.ID,screen.Bluetooth_Mac,screen.Rotation_angle, coordinates.X_coordinate, coordinates.Y_coordinate,\n"
+                    + "building.ID as buildingID, building.Name as buildingname, city.name as cityname, street.Name as streetname, street.Postal_Code, street.No  as buildingNo from screen\n"
+                    + "inner join coordinates\n"
+                    + "on screen.ID_COORDINATES = coordinates.ID\n"
+                    + "inner join building\n"
+                    + "on screen.ID_BUILDING = building.ID\n"
+                    + "inner join city\n"
+                    + "on building.ID_CITY = city.ID\n"
+                    + "inner join street\n"
+                    + "on building.ID_STREET = street.ID\n"
+                    + "where building.ID = " + id + ";";
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+
+                Screen screen = new Screen();
+
+                screen.setId(rs.getInt("ID"));
+                screen.setMac(rs.getString("Bluetooth_Mac"));
+                screen.setScreenRotation(rs.getInt("Rotation_angle"));
+                screen.setX(rs.getInt("X_coordinate"));
+                screen.setY(rs.getInt("Y_coordinate"));
+                screen.setBuildingID(rs.getInt("buildingID"));
+                screen.setBuildingname(rs.getString("buildingname"));
+                screen.setCity(rs.getString("cityname"));
+                screen.setBuildingstreet(rs.getString("streetname"));
+                screen.setPostal_code(rs.getString("Postal_Code"));
+                screen.setBuildingNo(rs.getInt("buildingNo"));
+
+              String  neighbourQuery = "select screen.ID,screen.Bluetooth_Mac,screen.Rotation_angle, coordinates.X_coordinate, coordinates.Y_coordinate, neighbouring_screens.Distance,neighbouring_screens.ID_SCREEN_2\n"
+                        + "from screen\n"
+                        + "inner join neighbouring_screens\n"
+                        + "on screen.ID = neighbouring_screens.ID_SCREEN_1\n"
+                        + "inner join coordinates\n"
+                        + "on neighbouring_screens.ID_SCREEN_2 = coordinates.ID\n"
+                        + "where screen.ID=" + screen.getId() + ";\n";
+              Statement nStmt = conn.createStatement(); 
+              ResultSet neighboorRs = nStmt.executeQuery(neighbourQuery);
+              ArrayList<Screen> neighbourList = new ArrayList();
+                while (neighboorRs.next()) {
+                    
+                    Screen neighbourScreen = new Screen();
+                    neighbourScreen.setId(neighboorRs.getInt("ID"));
+                    neighbourScreen.setMac(neighboorRs.getString("Bluetooth_Mac"));
+                    neighbourScreen.setScreenRotation(neighboorRs.getInt("Rotation_angle"));
+                    neighbourScreen.setX(neighboorRs.getInt("X_coordinate"));
+                    neighbourScreen.setY(neighboorRs.getInt("Y_coordinate"));
+                    neighbourScreen.setDistance(neighboorRs.getInt("Distance"));
+                    neighbourList.add(neighbourScreen);
+                   
+                }
+                 screen.setNeighbourList(neighbourList);
+                neighboorRs.close();
+                list.add(screen);
+
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Connector.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return list;
+
+    }
 
 }
-
-

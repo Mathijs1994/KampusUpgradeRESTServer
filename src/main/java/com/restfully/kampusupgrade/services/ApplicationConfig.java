@@ -17,6 +17,7 @@ public class ApplicationConfig extends Application {
     public ApplicationConfig() {
         singletons.add(new BuildingResourceService());
         singletons.add(new RoomResourceService());
+        singletons.add(new ScreenResourceService());
         
     }
     
