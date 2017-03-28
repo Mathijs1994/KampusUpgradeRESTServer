@@ -248,6 +248,155 @@ public class Connector {
         return list;
 
     }
+    
+    public ArrayList<Room> getRoomsByID(int id) {
+
+        ArrayList<Room> list = new ArrayList<Room>();
+        try {
+            Connection conn = dataSource.getConnection();
+            Statement stmt = conn.createStatement();
+            String query ="select room.ID, room.No, room.Name, floor.No as floorNo, wing.Name as wingname, coordinates.X_coordinate, coordinates.Y_coordinate,\n"
+                    + "building.ID as buildingID, building.Name as buildingname, city.name as cityname, street.Name as streetname, street.Postal_Code, street.No  as buildingNo from room\n"
+                    + "inner join floor\n"
+                    + "on room.ID_FLOOR = floor.ID\n"
+                    + "inner join wing\n"
+                    + "on room.ID_WING = wing.ID\n"
+                    + "inner join coordinates\n"
+                    + "on room.ID_COORDINATES = coordinates.ID\n"
+                    + "inner join building\n"
+                    + "on room.ID_BUILDING = building.ID\n"
+                    + "inner join city\n"
+                    + "on building.ID_CITY = city.ID\n"
+                    + "inner join street\n"
+                    + "on building.ID_STREET = street.ID\n"
+                    + "where room.ID = " + id + ";";
+            System.out.println(query);
+
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                Room room = new Room();
+                room.setId(rs.getInt("ID"));
+                room.setNo(rs.getInt("No"));
+                room.setName(rs.getString("Name"));
+                room.setFloor(rs.getInt("floorNo"));
+                room.setWing(rs.getString("wingname"));
+                room.setxCoordinate(rs.getInt("X_coordinate"));
+                room.setyCoordinate(rs.getInt("Y_coordinate"));
+                room.setBuildingID(rs.getInt("buildingID"));
+                room.setBuildingname(rs.getString("buildingname"));
+                room.setBuildingCity(rs.getString("cityname"));
+                room.setBuildingstreet(rs.getString("streetname"));
+                room.setBuildingPostal_code(rs.getString("Postal_Code"));
+                room.setBuildingNo(rs.getString("buildingNo"));
+                list.add(room);
+
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Connector.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return list;
+
+    }
+      public ArrayList<Room> getRoomsByNo(int no) {
+
+        ArrayList<Room> list = new ArrayList<Room>();
+        try {
+            Connection conn = dataSource.getConnection();
+            Statement stmt = conn.createStatement();
+
+            ResultSet rs = stmt.executeQuery("select room.ID, room.No, room.Name, floor.No as floorNo, wing.Name as wingname, coordinates.X_coordinate, coordinates.Y_coordinate,\n"
+                    + "building.ID as buildingID, building.Name as buildingname, city.name as cityname, street.Name as streetname, street.Postal_Code, street.No  as buildingNo from room\n"
+                    + "inner join floor\n"
+                    + "on room.ID_FLOOR = floor.ID\n"
+                    + "inner join wing\n"
+                    + "on room.ID_WING = wing.ID\n"
+                    + "inner join coordinates\n"
+                    + "on room.ID_COORDINATES = coordinates.ID\n"
+                    + "inner join building\n"
+                    + "on room.ID_BUILDING = building.ID\n"
+                    + "inner join city\n"
+                    + "on building.ID_CITY = city.ID\n"
+                    + "inner join street\n"
+                    + "on building.ID_STREET = street.ID\n"
+                    + "where room.No = " + no + ";");
+            while (rs.next()) {
+                Room room = new Room();
+                room.setId(rs.getInt("ID"));
+                room.setNo(rs.getInt("No"));
+                room.setName(rs.getString("Name"));
+                room.setFloor(rs.getInt("floorNo"));
+                room.setWing(rs.getString("wingname"));
+                room.setxCoordinate(rs.getInt("X_coordinate"));
+                room.setyCoordinate(rs.getInt("Y_coordinate"));
+                room.setBuildingID(rs.getInt("buildingID"));
+                room.setBuildingname(rs.getString("buildingname"));
+                room.setBuildingCity(rs.getString("cityname"));
+                room.setBuildingstreet(rs.getString("streetname"));
+                room.setBuildingPostal_code(rs.getString("Postal_Code"));
+                room.setBuildingNo(rs.getString("buildingNo"));
+                list.add(room);
+
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Connector.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return list;
+
+    }
+        public ArrayList<Room> getRoomsByBuilding(int id) {
+
+        ArrayList<Room> list = new ArrayList<Room>();
+        try {
+            Connection conn = dataSource.getConnection();
+            Statement stmt = conn.createStatement();
+
+            ResultSet rs = stmt.executeQuery("select room.ID, room.No, room.Name, floor.No as floorNo, wing.Name as wingname, coordinates.X_coordinate, coordinates.Y_coordinate,\n"
+                    + "building.ID as buildingID, building.Name as buildingname, city.name as cityname, street.Name as streetname, street.Postal_Code, street.No  as buildingNo from room\n"
+                    + "inner join floor\n"
+                    + "on room.ID_FLOOR = floor.ID\n"
+                    + "inner join wing\n"
+                    + "on room.ID_WING = wing.ID\n"
+                    + "inner join coordinates\n"
+                    + "on room.ID_COORDINATES = coordinates.ID\n"
+                    + "inner join building\n"
+                    + "on room.ID_BUILDING = building.ID\n"
+                    + "inner join city\n"
+                    + "on building.ID_CITY = city.ID\n"
+                    + "inner join street\n"
+                    + "on building.ID_STREET = street.ID\n"
+                    + "where building.ID = " + id + ";");
+            while (rs.next()) {
+                Room room = new Room();
+                room.setId(rs.getInt("ID"));
+                room.setNo(rs.getInt("No"));
+                room.setName(rs.getString("Name"));
+                room.setFloor(rs.getInt("floorNo"));
+                room.setWing(rs.getString("wingname"));
+                room.setxCoordinate(rs.getInt("X_coordinate"));
+                room.setyCoordinate(rs.getInt("Y_coordinate"));
+                room.setBuildingID(rs.getInt("buildingID"));
+                room.setBuildingname(rs.getString("buildingname"));
+                room.setBuildingCity(rs.getString("cityname"));
+                room.setBuildingstreet(rs.getString("streetname"));
+                room.setBuildingPostal_code(rs.getString("Postal_Code"));
+                room.setBuildingNo(rs.getString("buildingNo"));
+                list.add(room);
+
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Connector.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return list;
+
+    }
+    
+    
 
 }
 

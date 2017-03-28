@@ -31,18 +31,17 @@ import org.w3c.dom.NodeList;
  *
  * @author Mathijs
  */
-public class RoomResourceService implements RoomResources{
+public class RoomResourceService implements RoomResources {
 
-      /**
+    /**
      * Creates a new instance of BuildingResources
      */
     public RoomResourceService() {
-        
 
     }
+
     @Override
     public StreamingOutput getRoom() {
-        
 
         Connector conn = new Connector();
         final ArrayList<Room> list = conn.getAllRooms();
@@ -55,15 +54,72 @@ public class RoomResourceService implements RoomResources{
                     throws IOException, WebApplicationException {
                 outputRoom(outputStream, list);
             }
+        };
 
-            private void outputRoom(OutputStream os, ArrayList<Room> r) throws IOException {
+    }
+
+    @Override
+    public StreamingOutput getRoom(int id) {
+
+        Connector conn = new Connector();
+        final ArrayList<Room> list = conn.getRoomsByID(id);
+
+        if (list == null) {
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
+        }
+        return new StreamingOutput() {
+            public void write(OutputStream outputStream)
+                    throws IOException, WebApplicationException {
+                outputRoom(outputStream, list);
+            }
+        };
+
+    }
+
+    @Override
+    public StreamingOutput getRoomByNo(int no) {
+
+        Connector conn = new Connector();
+        final ArrayList<Room> list = conn.getRoomsByNo(no);
+
+        if (list == null) {
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
+        }
+        return new StreamingOutput() {
+            public void write(OutputStream outputStream)
+                    throws IOException, WebApplicationException {
+                outputRoom(outputStream, list);
+            }
+        };
+
+    }
+
+    @Override
+    public StreamingOutput getRoomByBuilding(int id) {
+
+        Connector conn = new Connector();
+        final ArrayList<Room> list = conn.getRoomsByBuilding(id);
+
+        if (list == null) {
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
+        }
+        return new StreamingOutput() {
+            public void write(OutputStream outputStream)
+                    throws IOException, WebApplicationException {
+                outputRoom(outputStream, list);
+            }
+        };
+
+    }
+
+    public void outputRoom(OutputStream os, ArrayList<Room> r) throws IOException {
         PrintStream writer = new PrintStream(os);
         writer.println("<rooms>");
         writer.println("    <list>");
         for (int i = 0; r.size() > i; i++) {
             writer.println("        <room id=\"" + r.get(i).getId() + "\">");
             writer.println("            <name>" + r.get(i).getName() + "</name>");
-            writer.println("            <roomnumber>" + r.get(i).getNo()+ "</roomnumber>");
+            writer.println("            <roomnumber>" + r.get(i).getNo() + "</roomnumber>");
             writer.println("            <floor>" + r.get(i).getFloor() + "</floor>");
             writer.println("            <wing>" + r.get(i).getWing() + "</wing>");
             writer.println("            <coordinates>");
@@ -73,21 +129,15 @@ public class RoomResourceService implements RoomResources{
             writer.println("            <building id=\"" + r.get(i).getBuildingID() + "\">");
             writer.println("                <name>" + r.get(i).getBuildingname() + "</name>");
             writer.println("                <street>" + r.get(i).getBuildingstreet() + "</street>");
-            writer.println("                <number>" + r.get(i).getBuildingNo()+ "</number>");
-            writer.println("                <postal_code>" + r.get(i).getBuildingPostal_code()+ "</postal_code>");
-            writer.println("                <city>" + r.get(i).getBuildingCity()+ "</city>");
+            writer.println("                <number>" + r.get(i).getBuildingNo() + "</number>");
+            writer.println("                <postal_code>" + r.get(i).getBuildingPostal_code() + "</postal_code>");
+            writer.println("                <city>" + r.get(i).getBuildingCity() + "</city>");
             writer.println("            </building>");
             writer.println("        </room>");
         }
         writer.println("    </list>");
         writer.println("</rooms>");
-                
-                
-               
-            }
 
-        };
-        
     }
-    
+
 }

@@ -29,6 +29,19 @@ public interface RoomResources {
     @Produces(MediaType.APPLICATION_XML)
     public StreamingOutput getRoom();
     
+    @GET
+    @Path("/id/{id}")
+    @Produces(MediaType.APPLICATION_XML)
+    public StreamingOutput getRoom(@PathParam("id") int id);
     
+    @GET
+    @Path("/no/{no}")
+    @Produces(MediaType.APPLICATION_XML)
+    public StreamingOutput getRoomByNo(@PathParam("no") int no);
+    
+    @GET
+    @Path("/building/{id}")
+    @Produces(MediaType.APPLICATION_XML)
+    public StreamingOutput getRoomByBuilding(@PathParam("id") int id);
     
 }
