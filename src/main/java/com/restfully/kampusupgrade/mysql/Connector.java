@@ -521,7 +521,7 @@ public class Connector {
                 while (neighboorRs.next()) {
                    
                     Screen neighbourScreen = new Screen();
-                    neighbourScreen.setId(neighboorRs.getInt("ID"));
+                    neighbourScreen.setId(neighboorRs.getInt("ID_SCREEN_2"));
                     neighbourScreen.setMac(neighboorRs.getString("Bluetooth_Mac"));
                     neighbourScreen.setScreenRotation(neighboorRs.getInt("Rotation_angle"));
                     neighbourScreen.setX(neighboorRs.getInt("X_coordinate"));
@@ -592,7 +592,7 @@ public class Connector {
                 while (neighboorRs.next()) {
                     
                     Screen neighbourScreen = new Screen();
-                    neighbourScreen.setId(neighboorRs.getInt("ID"));
+                    neighbourScreen.setId(neighboorRs.getInt("ID_SCREEN_2"));
                     neighbourScreen.setMac(neighboorRs.getString("Bluetooth_Mac"));
                     neighbourScreen.setScreenRotation(neighboorRs.getInt("Rotation_angle"));
                     neighbourScreen.setX(neighboorRs.getInt("X_coordinate"));
