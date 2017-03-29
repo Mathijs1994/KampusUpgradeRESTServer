@@ -2,7 +2,7 @@ package com.restfully.kampusupgrade.domain;
 
 /**
  *
- * @author boofk
+ * @author Mathijs
  */
 public class Customer {
     private int id;

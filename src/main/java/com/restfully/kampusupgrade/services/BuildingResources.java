@@ -14,7 +14,7 @@ import javax.ws.rs.core.StreamingOutput;
 
 /**
  *
- * @author boofk
+ * @author Mathijs
  */
 @Path("/building")
 public interface BuildingResources {

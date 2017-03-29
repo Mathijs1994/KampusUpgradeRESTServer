@@ -6,7 +6,7 @@ import javax.ws.rs.core.Application;
 
 /**
  *
- * @author boofk
+ * @author Mathijs
  */
 @javax.ws.rs.ApplicationPath("/services") 
 public class ApplicationConfig extends Application {

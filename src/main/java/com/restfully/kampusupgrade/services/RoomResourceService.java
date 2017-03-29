@@ -1,6 +1,4 @@
-/*
- * HvA licences apply
- */
+
 package com.restfully.kampusupgrade.services;
 
 import com.restfully.kampusupgrade.domain.Building;
