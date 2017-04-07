@@ -23,10 +23,10 @@ public class Connector {
 
     private MysqlDataSource dataSource;
     private final String USER = "root";
-    private final String PASSWORD = "root";
+    private final String PASSWORD = "supersilnehaslo";
     private final String SERVER = "127.0.0.1";
     private final int PORT = 3306;
-    private final String DB_NAME = "kampusubgrade";
+    private final String DB_NAME = "kampusupgrade";
 
     public Connector() {
         dataSource = new MysqlDataSource();

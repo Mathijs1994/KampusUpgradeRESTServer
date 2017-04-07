@@ -122,7 +122,7 @@ public class RoomResourceService implements RoomResources {
             writer.println("            <wing>" + r.get(i).getWing() + "</wing>");
             writer.println("            <coordinates>");
             writer.println("                <x>" + r.get(i).getxCoordinate() + "</x>");
-            writer.println("                <y>" + r.get(i).getxCoordinate() + "</y>");
+            writer.println("                <y>" + r.get(i).getyCoordinate() + "</y>");
             writer.println("            </coordinates>");
             writer.println("            <building id=\"" + r.get(i).getBuildingID() + "\">");
             writer.println("                <name>" + r.get(i).getBuildingname() + "</name>");
