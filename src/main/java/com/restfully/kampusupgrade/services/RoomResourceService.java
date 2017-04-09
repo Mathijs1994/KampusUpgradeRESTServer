@@ -4,6 +4,7 @@ package com.restfully.kampusupgrade.services;
 import com.restfully.kampusupgrade.domain.Building;
 import com.restfully.kampusupgrade.domain.Customer;
 import com.restfully.kampusupgrade.domain.Room;
+import com.restfully.kampusupgrade.domain.Screen;
 import com.restfully.kampusupgrade.mysql.Connector;
 import java.io.IOException;
 import java.io.InputStream;
@@ -115,6 +116,8 @@ public class RoomResourceService implements RoomResources {
         writer.println("<rooms>");
         writer.println("    <list>");
         for (int i = 0; r.size() > i; i++) {
+            Screen screen;
+            screen = r.get(i).getClosestScreen();
             writer.println("        <room id=\"" + r.get(i).getId() + "\">");
             writer.println("            <name>" + r.get(i).getName() + "</name>");
             writer.println("            <roomnumber>" + r.get(i).getNo() + "</roomnumber>");
@@ -131,6 +134,14 @@ public class RoomResourceService implements RoomResources {
             writer.println("                <postal_code>" + r.get(i).getBuildingPostal_code() + "</postal_code>");
             writer.println("                <city>" + r.get(i).getBuildingCity() + "</city>");
             writer.println("            </building>");
+            writer.println("            <screen id=\"" + screen.getId() + "\">");
+            writer.println("                <rotation>" + screen.getScreenRotation() + "</rotation>");
+            writer.println("                <mac>" + screen.getMac() + "</mac>");
+            writer.println("                <coordinates>");
+            writer.println("                    <x>" + screen.getX() + "</x>");
+            writer.println("                    <y>" + screen.getY() + "</y>");
+            writer.println("                </coordinates>");
+            writer.println("            </screen>");
             writer.println("        </room>");
         }
         writer.println("    </list>");

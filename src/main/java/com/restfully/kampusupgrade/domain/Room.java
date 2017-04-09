@@ -19,6 +19,15 @@ public class Room {
     String buildingCity;
     String buildingPostal_code;
     String wing;
+    Screen closestScreen;
+
+    public Screen getClosestScreen() {
+        return closestScreen;
+    }
+
+    public void setClosestScreen(Screen closestScreen) {
+        this.closestScreen = closestScreen;
+    }
 
     public String getWing() {
         return wing;

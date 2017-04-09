@@ -239,6 +239,28 @@ public class Connector {
                 room.setBuildingstreet(rs.getString("streetname"));
                 room.setBuildingPostal_code(rs.getString("Postal_Code"));
                 room.setBuildingNo(rs.getString("buildingNo"));
+
+                String query = "select screen.ID, screen.Bluetooth_Mac, screen.Rotation_angle, coordinates.X_coordinate, coordinates.Y_coordinate from screen\n"
+                        + "inner join coordinates\n"
+                        + "on screen.ID_COORDINATES = coordinates.ID\n"
+                        + "inner join room\n"
+                        + "on screen.ID = room.ID_CLOSEST_SCREEN\n"
+                        + "where room.ID = " + room.getId() + ";";
+                Statement nStmt = conn.createStatement();
+                ResultSet screenRs = nStmt.executeQuery(query);
+                Screen screen = new Screen();
+                while (screenRs.next()) {
+
+                    
+                    screen.setId(screenRs.getInt("ID"));
+                    screen.setMac(screenRs.getString("Bluetooth_Mac"));
+                    screen.setScreenRotation(screenRs.getInt("Rotation_angle"));
+                    screen.setX(screenRs.getInt("X_coordinate"));
+                    screen.setY(screenRs.getInt("Y_coordinate"));
+                    
+                }
+                room.setClosestScreen(screen);
+
                 list.add(room);
 
             }
@@ -290,6 +312,29 @@ public class Connector {
                 room.setBuildingstreet(rs.getString("streetname"));
                 room.setBuildingPostal_code(rs.getString("Postal_Code"));
                 room.setBuildingNo(rs.getString("buildingNo"));
+                  query = "select screen.ID, screen.Bluetooth_Mac, screen.Rotation_angle, coordinates.X_coordinate, coordinates.Y_coordinate from screen\n"
+                        + "inner join coordinates\n"
+                        + "on screen.ID_COORDINATES = coordinates.ID\n"
+                        + "inner join room\n"
+                        + "on screen.ID = room.ID_CLOSEST_SCREEN\n"
+                        + "where room.ID = " + room.getId() + ";";
+                Statement nStmt = conn.createStatement();
+                ResultSet screenRs = nStmt.executeQuery(query);
+                Screen screen = new Screen();
+                while (screenRs.next()) {
+
+                    
+                    screen.setId(screenRs.getInt("ID"));
+                    screen.setMac(screenRs.getString("Bluetooth_Mac"));
+                    screen.setScreenRotation(screenRs.getInt("Rotation_angle"));
+                    screen.setX(screenRs.getInt("X_coordinate"));
+                    screen.setY(screenRs.getInt("Y_coordinate"));
+                    
+                }
+                room.setClosestScreen(screen);
+
+                
+                
                 list.add(room);
 
             }
@@ -339,6 +384,28 @@ public class Connector {
                 room.setBuildingstreet(rs.getString("streetname"));
                 room.setBuildingPostal_code(rs.getString("Postal_Code"));
                 room.setBuildingNo(rs.getString("buildingNo"));
+                 String query = "select screen.ID, screen.Bluetooth_Mac, screen.Rotation_angle, coordinates.X_coordinate, coordinates.Y_coordinate from screen\n"
+                        + "inner join coordinates\n"
+                        + "on screen.ID_COORDINATES = coordinates.ID\n"
+                        + "inner join room\n"
+                        + "on screen.ID = room.ID_CLOSEST_SCREEN\n"
+                        + "where room.ID = " + room.getId() + ";";
+                Statement nStmt = conn.createStatement();
+                ResultSet screenRs = nStmt.executeQuery(query);
+                Screen screen = new Screen();
+                while (screenRs.next()) {
+
+                    
+                    screen.setId(screenRs.getInt("ID"));
+                    screen.setMac(screenRs.getString("Bluetooth_Mac"));
+                    screen.setScreenRotation(screenRs.getInt("Rotation_angle"));
+                    screen.setX(screenRs.getInt("X_coordinate"));
+                    screen.setY(screenRs.getInt("Y_coordinate"));
+                    
+                }
+                room.setClosestScreen(screen);
+
+                
                 list.add(room);
                 rs.close();
             }
@@ -388,6 +455,27 @@ public class Connector {
                 room.setBuildingstreet(rs.getString("streetname"));
                 room.setBuildingPostal_code(rs.getString("Postal_Code"));
                 room.setBuildingNo(rs.getString("buildingNo"));
+                 String query = "select screen.ID, screen.Bluetooth_Mac, screen.Rotation_angle, coordinates.X_coordinate, coordinates.Y_coordinate from screen\n"
+                        + "inner join coordinates\n"
+                        + "on screen.ID_COORDINATES = coordinates.ID\n"
+                        + "inner join room\n"
+                        + "on screen.ID = room.ID_CLOSEST_SCREEN\n"
+                        + "where room.ID = " + room.getId() + ";";
+                Statement nStmt = conn.createStatement();
+                ResultSet screenRs = nStmt.executeQuery(query);
+                Screen screen = new Screen();
+                while (screenRs.next()) {
+
+                    
+                    screen.setId(screenRs.getInt("ID"));
+                    screen.setMac(screenRs.getString("Bluetooth_Mac"));
+                    screen.setScreenRotation(screenRs.getInt("Rotation_angle"));
+                    screen.setX(screenRs.getInt("X_coordinate"));
+                    screen.setY(screenRs.getInt("Y_coordinate"));
+                    
+                }
+                room.setClosestScreen(screen);
+
                 list.add(room);
 
             }
@@ -441,10 +529,10 @@ public class Connector {
                         + "inner join coordinates\n"
                         + "on neighbouring_screens.ID_SCREEN_2 = coordinates.ID\n"
                         + "where screen.ID=" + screen.getId() + ";";
-                Statement nStmt = conn.createStatement(); 
+                Statement nStmt = conn.createStatement();
                 ResultSet neighboorRs = nStmt.executeQuery(query);
                 ArrayList<Screen> neighbourList = new ArrayList();
-                while (neighboorRs.next()) {    
+                while (neighboorRs.next()) {
                     Screen neighbourScreen = new Screen();
                     neighbourScreen.setId(neighboorRs.getInt("ID_SCREEN_2"));
                     neighbourScreen.setMac(neighboorRs.getString("Bluetooth_Mac"));
@@ -453,10 +541,7 @@ public class Connector {
                     neighbourScreen.setY(neighboorRs.getInt("Y_coordinate"));
                     neighbourScreen.setDistance(neighboorRs.getInt("Distance"));
                     neighbourList.add(neighbourScreen);
-                   
-                    
 
-                    
                 }
                 screen.setNeighbourList(neighbourList);
                 neighboorRs.close();
@@ -515,11 +600,11 @@ public class Connector {
                         + "inner join coordinates\n"
                         + "on neighbouring_screens.ID_SCREEN_2 = coordinates.ID\n"
                         + "where screen.ID=" + screen.getId() + ";\n";
-                Statement nStmt = conn.createStatement(); 
+                Statement nStmt = conn.createStatement();
                 ResultSet neighboorRs = nStmt.executeQuery(query);
-                 ArrayList<Screen> neighbourList = new ArrayList();
+                ArrayList<Screen> neighbourList = new ArrayList();
                 while (neighboorRs.next()) {
-                   
+
                     Screen neighbourScreen = new Screen();
                     neighbourScreen.setId(neighboorRs.getInt("ID_SCREEN_2"));
                     neighbourScreen.setMac(neighboorRs.getString("Bluetooth_Mac"));
@@ -529,9 +614,8 @@ public class Connector {
                     neighbourScreen.setDistance(neighboorRs.getInt("Distance"));
                     neighbourList.add(neighbourScreen);
 
-                   
                 }
-                 screen.setNeighbourList(neighbourList);
+                screen.setNeighbourList(neighbourList);
                 list.add(screen);
                 neighboorRs.close();
 
@@ -579,18 +663,18 @@ public class Connector {
                 screen.setPostal_code(rs.getString("Postal_Code"));
                 screen.setBuildingNo(rs.getInt("buildingNo"));
 
-              String  neighbourQuery = "select screen.ID,screen.Bluetooth_Mac,screen.Rotation_angle, coordinates.X_coordinate, coordinates.Y_coordinate, neighbouring_screens.Distance,neighbouring_screens.ID_SCREEN_2\n"
+                String neighbourQuery = "select screen.ID,screen.Bluetooth_Mac,screen.Rotation_angle, coordinates.X_coordinate, coordinates.Y_coordinate, neighbouring_screens.Distance,neighbouring_screens.ID_SCREEN_2\n"
                         + "from screen\n"
                         + "inner join neighbouring_screens\n"
                         + "on screen.ID = neighbouring_screens.ID_SCREEN_1\n"
                         + "inner join coordinates\n"
                         + "on neighbouring_screens.ID_SCREEN_2 = coordinates.ID\n"
                         + "where screen.ID=" + screen.getId() + ";\n";
-              Statement nStmt = conn.createStatement(); 
-              ResultSet neighboorRs = nStmt.executeQuery(neighbourQuery);
-              ArrayList<Screen> neighbourList = new ArrayList();
+                Statement nStmt = conn.createStatement();
+                ResultSet neighboorRs = nStmt.executeQuery(neighbourQuery);
+                ArrayList<Screen> neighbourList = new ArrayList();
                 while (neighboorRs.next()) {
-                    
+
                     Screen neighbourScreen = new Screen();
                     neighbourScreen.setId(neighboorRs.getInt("ID_SCREEN_2"));
                     neighbourScreen.setMac(neighboorRs.getString("Bluetooth_Mac"));
@@ -599,9 +683,9 @@ public class Connector {
                     neighbourScreen.setY(neighboorRs.getInt("Y_coordinate"));
                     neighbourScreen.setDistance(neighboorRs.getInt("Distance"));
                     neighbourList.add(neighbourScreen);
-                   
+
                 }
-                 screen.setNeighbourList(neighbourList);
+                screen.setNeighbourList(neighbourList);
                 neighboorRs.close();
                 list.add(screen);
 
